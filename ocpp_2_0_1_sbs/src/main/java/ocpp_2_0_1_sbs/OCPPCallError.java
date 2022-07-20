@@ -33,12 +33,7 @@ public class OCPPCallError {
 	}
 	
 	public OCPPError toError() {//returns the error that corresponds to this CallError
-		for(var entry: OCPPError.errors.entrySet()) {
-			if(entry.getKey()==errorCode) {
-				return new OCPPError(errorCode,errorDescription,errorDetails);
-			}
-		}
-		return new OCPPError("GenericError","Error code "+errorCode+" is not defined by the OCPP specification",errorDetails);
+		return OCPPError.createOCPPError(errorCode,errorDescription,errorDetails);
 	}
 
 }
