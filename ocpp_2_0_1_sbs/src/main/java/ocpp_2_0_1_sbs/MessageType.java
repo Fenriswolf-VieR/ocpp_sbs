@@ -1,7 +1,13 @@
 package ocpp_2_0_1_sbs;
 
+import java.net.URL;
 import java.util.ArrayList;
 import com.google.gson.Gson;
+import net.jimblackler.jsonschemafriend.Schema;
+import net.jimblackler.jsonschemafriend.SchemaStore;
+import net.jimblackler.jsonschemafriend.Validator;
+import net.jimblackler.jsonschemafriend.GenerationException;
+import net.jimblackler.jsonschemafriend.MissingPropertyError;
 
 public class MessageType {
 	
@@ -43,20 +49,49 @@ public class MessageType {
 		return msg.toJson();
 	}
 	
-	private Object getValidator(int mestyid,String act,String vers) {
-		return new Object();
-		//NotImplemented if fail to validate
+	private Schema getSchema(int messagetypeid,String act,String vers) {
+		//maybe chache results for performance
+		if(vers !="2.0.1") {
+			//ValueError
+		}
+		String schema_dir = "v"+vers.replace(".","")+"/schemas/";
+		String schema_name = act;
+		if(messagetypeid == Call) {
+			schema_name+="Request";
+		}else if(messagetypeid == CallResult) {
+			schema_name+="Response";
+		}
+		String path=schema_dir+schema_name+".json";
+		URL url = getClass().getResource(path);
+		SchemaStore store = new SchemaStore();
+		Schema schema = null;
+		try {
+			schema = store.loadSchema(url);
+		} catch (GenerationException e) {
+			//NotImplementedError if fail to load
+			e.printStackTrace();
+		}
+		return schema;
 	}
 	
 	public void validate_payload(Object message,String ocpp_version) {
-		Object validator;
+		Schema schema=null;
+		String json = "";
 		if(message.getClass()==OCPPCall.class) {
-			validator = getValidator(((OCPPCall)message).MessageTypeId,((OCPPCall)message).action,ocpp_version);
+			schema = getSchema(((OCPPCall)message).MessageTypeId,((OCPPCall)message).action,ocpp_version);
+			json = ((OCPPCall)message).toJson();
 		}else if(message.getClass()==OCPPCallResult.class){
-			validator = getValidator(((OCPPCallResult)message).MessageTypeId,((OCPPCallResult)message).action,ocpp_version);
+			schema = getSchema(((OCPPCallResult)message).MessageTypeId,((OCPPCallResult)message).action,ocpp_version);
+			json = ((OCPPCallResult)message).toJson();
 		}else {
 			//validationerror
 		}
 		//validate here or call errors
+		new Validator().validate(schema,json,validationError ->{
+			if (validationError instanceof MissingPropertyError) {
+				MissingPropertyError missingPropertyError = (MissingPropertyError) validationError;
+				System.out.println("A missing property was: " + missingPropertyError.getProperty());
+			}
+		});
 	}
 }
