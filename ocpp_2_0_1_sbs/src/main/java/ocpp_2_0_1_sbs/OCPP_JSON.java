@@ -1,4 +1,4 @@
-package ocpp_2_0_1_sbs;
+/*package ocpp_2_0_1_sbs;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -20,9 +20,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 
 @ServerEndpoint(
-		value="wss://csms.connectiongURL.com/ocppj/{stationname}", 
-		decoders = MessageDecoder.class, 
-		encoders = MessageEncoder.class)
+		value="wss://csms.connectiongURL.com/ocppj/{stationname}")
 public class OCPP_JSON {
 	
 	private Session session;
@@ -36,18 +34,19 @@ public class OCPP_JSON {
         chargingStations.add(this);
         users.put(session.getId(), stationname);
 
-       /* Message message = new Message();
+        Message message = new Message();
         message.setFrom(stationname);
         message.setContent("Connected!");
-        broadcast(message);*/
+        broadcast(message);
 	}
 	
 	@OnMessage
 	public void onMessage(Session session, Message message) throws IOException, EncodeException{
 		//Handle new messages
 		
-		/*message.setFrom(users.get(session.getId()));
-        broadcast(message);*/
+		message.setFrom(users.get(session.getId()));
+
+        broadcast(message);
 	}
 	
 	@OnClose
@@ -56,10 +55,10 @@ public class OCPP_JSON {
 		
 		chargingStations.remove(this);
 		
-        /*Message message = new Message();
+        Message message = new Message();
         message.setFrom(users.get(session.getId()));
         message.setContent("Disconnected!");
-        broadcast(message);*/
+        broadcast(message);
 	}
 	
 	@OnError
@@ -80,3 +79,5 @@ public class OCPP_JSON {
 		});
 	}
 }
+*/
+
