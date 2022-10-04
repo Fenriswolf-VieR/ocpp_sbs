@@ -45,6 +45,7 @@ public class OCPP_JSON {
 		//Handle new messages
 		
 		message.setFrom(users.get(session.getId()));
+
         broadcast(message);
 	}
 	
@@ -77,4 +78,6 @@ public class OCPP_JSON {
 			}
 		});
 	}
-}*/
+}
+*/
+
