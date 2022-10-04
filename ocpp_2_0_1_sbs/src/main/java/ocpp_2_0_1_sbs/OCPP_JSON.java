@@ -1,4 +1,4 @@
-package ocpp_2_0_1_sbs;
+/*package ocpp_2_0_1_sbs;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -39,7 +39,7 @@ public class OCPP_JSON {
        /* Message message = new Message();
         message.setFrom(stationname);
         message.setContent("Connected!");
-        broadcast(message);*/
+        broadcast(message);
 	}
 	
 	@OnMessage
@@ -47,7 +47,7 @@ public class OCPP_JSON {
 		//Handle new messages
 		
 		/*message.setFrom(users.get(session.getId()));
-        broadcast(message);*/
+        broadcast(message);
 	}
 	
 	@OnClose
@@ -59,7 +59,7 @@ public class OCPP_JSON {
         /*Message message = new Message();
         message.setFrom(users.get(session.getId()));
         message.setContent("Disconnected!");
-        broadcast(message);*/
+        broadcast(message);
 	}
 	
 	@OnError
@@ -80,3 +80,4 @@ public class OCPP_JSON {
 		});
 	}
 }
+*/
